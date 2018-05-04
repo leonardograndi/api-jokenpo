@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { user, password, database } from './../config/auth';
+import { user, password, database } from '../config/auth.json';
 
 // mongoose.connect('mongodb://alisson:00000000@ds044907.mlab.com:44907/jokenpostr');
 
