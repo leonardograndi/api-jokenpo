@@ -19,11 +19,16 @@ export async function findOne(req, res, next) {
 
 export async function createUser(req, res, next) {
 
-    const { nickname } = req.body;
+    const { email } = req.body
 
     try {
         
-        const user = await User.create({ nickname });
+        //Verificando se já existe um email cadastrado.
+        if(await User.findOne({ email })) {
+            return res.status(400).send({ error: 'Este email já é cadastrado, por favor tente outro.' });
+        }
+            
+        const user = await User.create(req.body);
         
         return res.status(200).send(user);
 

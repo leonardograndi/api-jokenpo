@@ -7,31 +7,31 @@ const UserSchema = new mongoose.Schema({
         require :   true,
           trim  :   true,
     },
-    //       email :   {
-    //        type : String,
-    //    required : true,
-    //      unique : true,
-    //        trim : true,
-    //   lowercase : true
-    // },
-    //    password : {
-    //        type : String,
-    //    required : false,
-    //        trim : true,
-    //      select : false
-    // },
-    //       score : {
-    //        type : Number,
-    //    required : false
-    // },
-    //        wins : {
-    //        type : Number,
-    //    required : false
-    // },
-    //      losses : {
-    //        type : Number,
-    //    required : false
-    // }
+          email :   {
+           type : String,
+       required : false,
+         unique : true,
+           trim : true,
+      lowercase : true
+    },
+       password : {
+           type : String,
+       required : false,
+           trim : true,
+         select : false
+    },
+          score : {
+           type : Number,
+       required : false
+    },
+           wins : {
+           type : Number,
+       required : false
+    },
+         losses : {
+           type : Number,
+       required : false
+    }
 
 });
 
