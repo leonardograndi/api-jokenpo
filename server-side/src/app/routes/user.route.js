@@ -9,3 +9,4 @@ router.post('/', createUser );
 
 
 module.exports = app => app.use('/user', router)
+
