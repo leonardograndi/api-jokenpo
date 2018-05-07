@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
+import TodoList from './TodoList';
+import Counter from './counter';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-
-    console.log("FF");
-
-  }
-
   render() {
     return (
-      <div className="App">
-        <h2>GOL</h2>
-      </div>
+      <Provider store={store}>
+        <div>
+          <TodoList/>
+          <Counter/>
+        </div>
+        
+      </Provider>
     );
   }
 }
