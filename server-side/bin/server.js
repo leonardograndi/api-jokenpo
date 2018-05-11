@@ -1,31 +1,32 @@
 import debug from 'debug';
 import http from 'http';
 import app from './../src/app';
+import socketIO  from 'socket.io';
 
-
-let normalizePort = (val) => {
-
-    const port = parseInt(val, 10);
-
-    if(isNaN(port)) 
-        return val;
-
-    if(port >= 0)
-        return port;
-
-    return false;
-
-}
-
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
+const port   = normalizePort(process.env.PORT || '3000');
 const server = http.createServer(app);
 
-server.listen(port, () => console.log('Server running on the port: '+port))
+app.set('port', port);
+
+server.listen(port, () => console.log('Server running on the port: ' + port));
 server.on('error', onError);
 server.on('listening', onListening);
+
+//Socket IO
+const io = new socketIO(server);
+
+    io.on('connection', socket => {
+        console.log('User connect', socket.id);
+    });
+
+
+
+
+
+
+
+
+
 
 function onError() {
 
@@ -60,4 +61,18 @@ function onListening() {
     
     debug('Listening on ' + bind);
     
+}
+
+function normalizePort(val) {
+
+    const port = parseInt(val, 10);
+
+    if(isNaN(port)) 
+        return val;
+
+    if(port >= 0)
+        return port;
+
+    return false;
+
 }
