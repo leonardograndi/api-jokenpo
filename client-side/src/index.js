@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import { Provider } from 'react-redux';
-import { store } from './_helpers/store';
-
-import { history } from './_helpers/history';
+import { store } from './_helpers';
+import { history } from './_helpers';
 
 ReactDOM.render(
     <Provider store={store}>
