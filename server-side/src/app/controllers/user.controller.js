@@ -26,6 +26,8 @@ export async function createUser(req, res, next) {
 
     const { email } = req.body
 
+    console.log(req.body);
+
     try {
         
         //Verificando se já existe um email cadastrado.
@@ -41,7 +43,7 @@ export async function createUser(req, res, next) {
 
     } catch (error) {
         console.log(error);
-        return res.status(404).send({ message: 'User not found' });        
+        return res.status(404).send({ message: 'Create user failed' });        
     }
         
 };
