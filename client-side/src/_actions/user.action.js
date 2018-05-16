@@ -1,13 +1,11 @@
 import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST }  from '../_constants'
+
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE }  from '../_constants'
+
 import { userLogin } from '../_services';
 
 export function login(email, password) {
 
-    let data = JSON.stringify({
-        email: email,
-        password: password
-    });
- 
     return dispatch => {
         
         dispatch(request({ email }));
@@ -21,5 +19,22 @@ export function login(email, password) {
     function request(user)  { return { type: LOGIN_REQUEST, user  } };
     function success(token) { return { type: LOGIN_SUCCESS, token } };
     function failure(err)   { return { type: LOGIN_FAILURE, err   } };
+
+}
+
+export function register(user) {
+
+    return dispatch => {
+        
+        dispatch(request(user));
+
+        console.log(user, "USER");
+    
+    
+    }
+
+    function request(user)  { return { type: REGISTER_REQUEST, user  } }
+    function success(user)  { return { type: REGISTER_SUCCESS, user  } }
+    function failure(error) { return { type: REGISTER_FAILURE, error } }
 
 }

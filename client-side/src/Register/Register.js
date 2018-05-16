@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as userActions from './../_actions/user.action';
 
 import { Card, CardHeader } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
@@ -32,6 +35,8 @@ class Register extends Component {
 
     handleSubmit = () => {
         const { user } = this.state;
+        this.props.register(user);
+
     }
 
     render() {
@@ -71,6 +76,11 @@ class Register extends Component {
                             primary={true} 
                             onClick={this.handleSubmit}
                         />
+                        <RaisedButton 
+                            label="Cancelar" 
+                            primary={true} 
+                            onClick={this.handleSubmit}
+                        />
                     </form>
                 </Card>
             </div>
@@ -78,4 +88,12 @@ class Register extends Component {
     }
 }
 
-export default Register;
+const mapStateToProps = state => {
+    const { registering } = state.registration;
+    return { registering }
+};
+  
+const mapDispatchToProps = dispatch => 
+    bindActionCreators(userActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

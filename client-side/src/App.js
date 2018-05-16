@@ -20,9 +20,8 @@ class App extends Component {
       <MuiThemeProvider muiTheme={wrapper}>
         <ConnectedRouter history={history}>
           <Switch>
-            {/* <Route path="/login" component={Login} /> */}
-            <Route path="/" component={Register} />
-
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </Switch>
         </ConnectedRouter>
       </MuiThemeProvider>
