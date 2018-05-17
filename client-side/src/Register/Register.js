@@ -8,6 +8,8 @@ import { Card, CardHeader } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import { FadeLoader } from 'react-spinners';
+
 class Register extends Component {
 
     constructor(props) {
@@ -40,6 +42,9 @@ class Register extends Component {
     }
 
     render() {
+
+        const { registering } = this.props;
+
         return(
             <div>
                 <Card>
@@ -81,6 +86,15 @@ class Register extends Component {
                             primary={true} 
                             onClick={this.handleSubmit}
                         />
+                        
+                        {registering && 
+                            <div className='sweet-loading'>
+                                <FadeLoader
+                                    color={'#36D7B7'} 
+                                    with={10}
+                                />
+                            </div>
+                        }
                     </form>
                 </Card>
             </div>

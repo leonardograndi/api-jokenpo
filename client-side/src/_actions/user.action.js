@@ -25,11 +25,12 @@ export function login(email, password) {
 export function register(user) {
 
     return dispatch => {
-        
+
+        //Disparando spinner
         dispatch(request(user));
 
-        console.log(user, "USER");
-    
+        
+
     
     }
 
