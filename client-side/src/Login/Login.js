@@ -4,66 +4,114 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userActions from './../_actions/user.action';
 
-import { Card, CardHeader } from 'material-ui/Card';
+// import { Card, CardHeader } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 
+import logo from './../assets/logo_smartcity.png';
+// import cityback from './../assets/city_background.png';
+
+import FlatButton from 'material-ui/FlatButton';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import { divLogin, imageSmart, underlineFocusStyle, floatingLabelFocusStyle,
+floatingLabelStyle, inputStyle, textField, styleBtnSubmit } from './LoginStyle.js';
+
+
+injectTapEventPlugin();
 
 class Login extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            sizeAux: '7'
+        }
+    }
+
+
+    componentDidMount() {
+        
+        this.ajustarProporcao();
+
+        window.addEventListener('resize', () => {
+
+            this.ajustarProporcao();
+
+        }, false);
+    }
+
+    ajustarProporcao = () => {
+
+        if (window.innerHeight < window.innerWidth) {
+            this.setState({ sizeAux: '7'});
+        } else {
+            this.setState({ sizeAux: '12'});
         }
     }
 
     handleSubmit = () => {
         const { email, password } = this.state;
-        // console.log(this.props, "FJSKDK");
-        this.props.login(email, password);
+        
+        if(email && password){
+            this.props.login(email, password);
+        }    
     }
     
     handleChange = (event) => {
         const { name, value } = event.target
         this.setState({ [name]: value }); 
-        // console.log(this.state);
     }
-
 
     render() {
         return(
-            <div>
-                <Card>
+            <div style={divLogin}>
+                <div style={{ 
+                        width: this.state.sizeAux * 5 + 'vw', 
+                        position: 'absolute', 
+                        left: '50%', top: '50%', 
+                        transform: 'translate(-50%, -50%)' 
+                    }}>
+                    
+                    <img src={logo} style={imageSmart} alt=""/>
+
                     <form>
-                        <CardHeader
-                            title="Smart Cities"
-                            actAsExpander={true}
-                            showExpandableButton={true}
-                        />
                         <TextField
-                            hintText="Insira seu Email"
+                            underlineFocusStyle={underlineFocusStyle} 
+                            floatingLabelFocusStyle={floatingLabelFocusStyle}
+                            floatingLabelStyle={floatingLabelStyle} 
+                            inputStyle={inputStyle}
+                            style={textField}
                             floatingLabelText="Email"
                             onChange={this.handleChange}
                             name="email"
+                            autoComplete="off"
                         />
                         <br/>
                         <TextField
+                            underlineFocusStyle={underlineFocusStyle} 
+                            floatingLabelFocusStyle={floatingLabelFocusStyle}
+                            floatingLabelStyle={floatingLabelStyle} 
+                            inputStyle={inputStyle}
+                            style={textField}
                             type="password"
-                            hintText="Insira sua senha"
                             floatingLabelText="Senha"
                             onChange={this.handleChange}
                             name="password"
+                            autoComplete="off"
                         />
                         <br/>
-                        <RaisedButton 
+                        <FlatButton 
                             label="Acessar" 
                             primary={true} 
                             onClick={this.handleSubmit}
+                            style={styleBtnSubmit}
                         />
                     </form>
-                </Card>
+                </div>
             </div> 
         );
     }
@@ -78,3 +126,5 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators(userActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+
