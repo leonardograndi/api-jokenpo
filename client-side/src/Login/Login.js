@@ -19,6 +19,9 @@ import { divLogin, imageSmart, underlineFocusStyle, floatingLabelFocusStyle,
 floatingLabelStyle, inputStyle, textField, styleBtnSubmit } from './LoginStyle.js';
 
 
+import { Redirect } from 'react-router-dom';
+
+
 injectTapEventPlugin();
 
 class Login extends Component {
@@ -59,6 +62,8 @@ class Login extends Component {
         if(email && password){
             this.props.login(email, password);
         }    
+
+        console.log(this.props, "PROPS");
     }
     
     handleChange = (event) => {
@@ -67,6 +72,13 @@ class Login extends Component {
     }
 
     render() {
+
+        const { token } = this.props.session;
+
+        if(token) {
+            return <Redirect to="/" />;
+        }
+
         return(
             <div style={divLogin}>
                 <div style={{ 
