@@ -2,7 +2,7 @@ import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST }  from '../_constants'
 
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE }  from '../_constants'
 
-import { userLogin } from '../_services';
+import { userLogin, userRegister } from '../_services';
 
 export function login(email, password) {
 
@@ -29,9 +29,11 @@ export function register(user) {
         //Disparando spinner
         dispatch(request(user));
 
-        
-
-    
+        userRegister(user)
+            .then(
+                res => dispatch(success(res)),
+                error => dispatch(failure(error))
+            );
     }
 
     function request(user)  { return { type: REGISTER_REQUEST, user  } }

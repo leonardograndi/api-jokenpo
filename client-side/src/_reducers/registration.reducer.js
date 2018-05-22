@@ -8,9 +8,9 @@ export default function registration(state = {}, action) {
         case REGISTER_REQUEST:
             return { registering: true };
         case REGISTER_SUCCESS:
-            return {};
+            return {...state, result: true };
         case REGISTER_FAILURE: 
-            return {};
+            return {...state, result: false };
         default:
             return state;
     }
