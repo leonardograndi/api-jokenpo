@@ -10,15 +10,89 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { FadeLoader } from 'react-spinners';
 
+import { divLogin } from './RegisterStyle';
+import logo from './../assets/logo_smartcity.png';
+
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getmuiTheme, { getMuiTheme } from 'material-ui/styles/getMuiTheme';
+
+import { Redirect } from 'react-router-dom';
+
+const muiTheme = getmuiTheme({});
+
+const styles = {
+    floatingLabelFocusStyle: {
+        color: "#FFFFFF"
+    },
+    floatingLabelStyle: {
+        color: "#B3B3B3"
+    },
+    inputStyle: {
+        color: "#009640"
+    },
+    divLogin: {
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#1A1A1A'
+    },
+    underlineFocusStyle: {
+        borderColor: '#04DE63'
+    },
+    textField: {
+        position: 'relative',
+        display: 'block',
+        width: '100%',
+        left: '50%',
+        transform: 'translate(-50%, 0%)',
+        display: 'inline-block'
+    }
+}
+
+
+
 class Register extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            nickname: '',
-            email: '',
-            password: ''
+            user:{
+                nickname: '',
+                email: '',
+                password: '',
+            },
+            
+            sizeAux: '7',
+            tipo: 0
+        }
+    }
+
+    componentDidMount() {
+        this.ajustarProporcao();
+
+        window.addEventListener('resize', () => {
+
+            this.ajustarProporcao();
+
+        }, false);
+    }
+
+    ajustarProporcao = () => {
+
+        //se landscape
+        if (window.innerHeight < window.innerWidth) {
+            this.setState({
+                sizeAux: '7'
+            });
+        }
+        else {
+            this.setState({
+                sizeAux: '12'
+            });
         }
     }
 
@@ -30,81 +104,94 @@ class Register extends Component {
             user: {
                 ...user,
                 [name]: value
-            }
+            },
         });
-
     }
 
     handleSubmit = () => {
         const { user } = this.state;
-        this.props.register(user);
 
+        this.props.register(user);
     }
 
     render() {
 
-        const { registering } = this.props;
+        const { result } = this.props;
+
+        if(result) {
+            return <Redirect to="/login" />;
+        }
 
         return(
-            <div>
-                <Card>
-                    <form>
-                        <CardHeader
-                            title="Registrar-se"
-                            actAsExpander={true}
-                            showExpandableButton={true}
-                        />
-                        <TextField
-                            hintText="Apelido"
-                            floatingLabelText="Insira seu Apelido"
-                            onChange={this.handleChange}
-                            name="nickname"
-                        />
-                        <br/>
-                        <TextField
-                            hintText="Insira seu Email"
-                            floatingLabelText="Email"
-                            onChange={this.handleChange}
-                            name="email"
-                        />
-                        <br/>
-                        <TextField
-                            type="password"
-                            hintText="Insira sua senha"
-                            floatingLabelText="Senha"
-                            onChange={this.handleChange}
-                            name="password"
-                        />
-                        <br/>
-                        <RaisedButton 
-                            label="Acessar" 
-                            primary={true} 
-                            onClick={this.handleSubmit}
-                        />
-                        <RaisedButton 
-                            label="Cancelar" 
-                            primary={true} 
-                            onClick={this.handleSubmit}
-                        />
-                        
-                        {registering && 
-                            <div className='sweet-loading'>
-                                <FadeLoader
-                                    color={'#36D7B7'} 
-                                    with={10}
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div style={divLogin}>
+                    <div style={{ 
+                        width: '40%', 
+                        position: 'absolute', 
+                        left: '50%', 
+                        transform: 'translate(-50%, 0%)' 
+                    }}>
+                        <img src={logo} style={{ 
+                            marginTop: '5%', 
+                            position: 'relative', 
+                            bottom: '0px', 
+                            width: this.state.sizeAux * 3 + 'vw', 
+                            marginLeft: '50%', 
+                            transform: 'translate(-50%, 0%)' 
+                        }} alt="" />
+
+                        <div>
+                            <form>
+                                <TextField 
+                                    floatingLabelText="Nome" 
+                                    underlineFocusStyle={styles.underlineFocusStyle} 
+                                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle} 
+                                    floatingLabelStyle={styles.floatingLabelStyle} 
+                                    inputStyle={styles.inputStyle} 
+                                    onChange={this.handleChange}
+                                    id="nome" type="text" style={styles.textField} 
+                                    name="nickname"
                                 />
-                            </div>
-                        }
-                    </form>
-                </Card>
-            </div>
+
+                                <TextField 
+                                    floatingLabelText="Email" 
+                                    underlineFocusStyle={styles.underlineFocusStyle} 
+                                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle} 
+                                    floatingLabelStyle={styles.floatingLabelStyle} 
+                                    inputStyle={styles.inputStyle} 
+                                    onChange={this.handleChange}
+                                    id="email" type="text" style={styles.textField} 
+                                    name="email"
+                                />
+                                <TextField 
+                                    floatingLabelText="Password" 
+                                    underlineFocusStyle={styles.underlineFocusStyle} 
+                                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle} 
+                                    floatingLabelStyle={styles.floatingLabelStyle} 
+                                    inputStyle={styles.inputStyle} 
+                                    onChange={this.handleChange}
+                                    id="password" type="password" style={styles.textField} 
+                                    name="password"
+                                />
+
+                                {/* <TextField floatingLabelText="Nickname" underlineFocusStyle={styles.underlineFocusStyle} floatingLabelFocusStyle={styles.floatingLabelFocusStyle} floatingLabelStyle={styles.floatingLabelStyle} inputStyle={styles.inputStyle} id="nickname" type="text" style={styles.textField} />
+                                <TextField floatingLabelText="Senha" underlineFocusStyle={styles.underlineFocusStyle} floatingLabelFocusStyle={styles.floatingLabelFocusStyle} floatingLabelStyle={styles.floatingLabelStyle} inputStyle={styles.inputStyle} id="nickname" type="password" style={styles.textField} /> */}
+                                <div>
+                                    <FlatButton label="Cadastrar" onClick={this.handleSubmit} style={{ fontWeight: 'bold', marginTop: '3%', width: '30%', marginLeft: '50%', transform: 'translate(-50%, 0%)', color: '#009640' }} />
+                                    <FlatButton label="Cancelar" style={{ fontWeight: 'bold', marginTop: '3%', width: '30%', marginLeft: '50%', transform: 'translate(-50%, 0%)', color: '#009640' }} />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
 
 const mapStateToProps = state => {
-    const { registering } = state.registration;
-    return { registering }
+    const { result } = state.registration;
+    return { result }
 };
   
 const mapDispatchToProps = dispatch => 

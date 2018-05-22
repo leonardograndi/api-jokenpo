@@ -23,6 +23,21 @@ export const userLogin = (email, password) => {
         localStorage.clear();
     });
 
-    
+}
 
+
+export const userRegister = (user) => {
+
+    let data = JSON.stringify(user);
+
+    return axios.post(API + 'user/', data, {
+        headers: { 'Content-Type': 'application/json' }
+    }).then(res => {
+    
+        return res.data;           
+         
+    }).catch(err => {
+        localStorage.clear();
+        return err;
+    });
 }
