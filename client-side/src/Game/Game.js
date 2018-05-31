@@ -53,7 +53,7 @@ const muiTheme = getmuiTheme({});
 
 
 
-export default class extends Component {
+class Game extends Component {
     constructor() {
         super();
         this.state = {
@@ -693,6 +693,5 @@ export default class extends Component {
     };
 };
 
-
-
+export default Game;
 

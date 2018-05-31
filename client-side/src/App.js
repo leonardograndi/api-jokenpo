@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Login from './Login/Login';
 import Register from './Register/Register';
-import Game from './Game/game';
+import Game from './Game/Game';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
