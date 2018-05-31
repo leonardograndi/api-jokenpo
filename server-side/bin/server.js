@@ -8,25 +8,104 @@ const server = http.createServer(app);
 
 app.set('port', port);
 
+server.listen(port, '192.168.1.5')
 server.listen(port, () => console.log('Server running on the port: ' + port));
 server.on('error', onError);
 server.on('listening', onListening);
 
+var sala = 'aguardando';
+var cont = 0;
+
 //Socket IO
 const io = new socketIO(server);
 
+
     io.on('connection', socket => {
+
+        cont = cont +1;
+
         console.log('User connect', socket.id);
+    
+        socket.on('join', function (data) {
+        
+            if (sala == 'aguardando') {
+                sala = data;
+                socket.join(sala);
+                socket.room = sala;
+            }
+            else {
+                socket.join(sala);
+                socket.room = sala;
+    
+                let rand = Math.floor(Math.random() * 8) + 1;
+                socket.to(sala).emit('cenario', rand);
+                socket.emit('cenario', rand);
+    
+                socket.to(sala).emit('oponente', data);
+                socket.emit('oponente', sala);
+                sala = 'aguardando';
+            }
+        });
+
+        socket.on('disconnect', function (data) {
+
+            cont = cont-1;
+    
+            io.of('/').in(socket.room).clients((error, clients) => {
+                if (clients.length > 0) {
+                    clients.forEach(function (id) {
+                        if (id !== socket.id) {
+                            socket.to(id).emit('desconectado');
+                            io.sockets.connected[id].leave(socket.room);
+                        }
+                    });
+                }
+                if (sala === socket.room) {
+                    sala = 'aguardando'
+                }
+            });
+        });
+    
+        socket.on('gameover', function () {
+            io.of('/').in(socket.room).clients((error, clients) => {
+                if (clients.length > 0) {
+                    clients.forEach(function (id) {
+                        socket.to(id).emit('oponente','');
+                        io.sockets.connected[id].leave(socket.room);
+                    });
+                }
+                if (sala === socket.room) {
+                    sala = "aguardando"
+                }
+            });
+        });
+    
+        socket.on('desistiu', function () {
+            io.of('/').in(socket.room).clients((error, clients) => {
+                if (clients.length > 0) {
+                    clients.forEach(function (id) {
+                        if (id !== socket.id) {
+                            socket.to(id).emit('desistiu');
+                            io.sockets.connected[id].leave(socket.room);
+                        }
+                    });
+                }
+                if (sala === socket.room) {
+                    sala = "aguardando"
+                }
+            });
+    
+        });
+    
+        socket.on('oponenteJogou', function () {
+            socket.broadcast.to(socket.room).emit('oponenteJogou');
+        });
+    
+        socket.on('decidir', function (jogada) {
+            socket.broadcast.to(socket.room).emit('decidir', jogada);
+        });
+
     });
-
-
-
-
-
-
-
-
-
 
 function onError() {
 
