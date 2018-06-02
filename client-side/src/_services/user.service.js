@@ -16,7 +16,9 @@ export const userLogin = (email, password) => {
             localStorage.setItem('token', JSON.stringify(res.data.token));   
             localStorage.setItem('user', JSON.stringify(res.data.user));
             
-            return res.data.token;
+            console.log(data, "DATA");
+
+            return res.data;
         }
         
     }).catch(err => {

@@ -8,16 +8,16 @@ export function login(email, password) {
 
     return dispatch => {
         
-        dispatch(request({ email }));
+        dispatch(request());
 
         userLogin(email, password)
-        .then(token => dispatch(success(token)))
+        .then(data => dispatch(success(data.token, data.user)))
         .catch(err =>  dispatch(failure(err)));
 
     }
 
-    function request(user)  { return { type: LOGIN_REQUEST, user  } };
-    function success(token) { return { type: LOGIN_SUCCESS, token } };
+    function request()  { return { type: LOGIN_REQUEST } };
+    function success(token, user) { return { type: LOGIN_SUCCESS, token, user } };
     function failure(err)   { return { type: LOGIN_FAILURE, err   } };
 
 }

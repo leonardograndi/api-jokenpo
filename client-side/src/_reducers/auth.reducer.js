@@ -12,7 +12,7 @@ export default function authentication(state = initialState, action) {
 
         case LOGIN_SUCCESS:
             return {
-                ...state, token: action.token
+                ...state, token: action.token, user: action.user
             };
         case LOGIN_FAILURE:
             return {

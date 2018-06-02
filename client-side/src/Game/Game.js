@@ -4,6 +4,11 @@ import getmuiTheme, { getMuiTheme } from 'material-ui/styles/getMuiTheme';
 import io from 'socket.io-client';
 import './game.css';
 
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as userActions from './../_actions/user.action';
+
 import buttonPedra1 from './img/buttonPedra1.png';
 import buttonPedra2 from './img/buttonPedra2.png';
 import buttonPedra3 from './img/buttonPedra3.png';
@@ -46,7 +51,6 @@ import background7 from './img/background7.png';
 import background8 from './img/background8.png';
 
 
-
 var socket, timer, timerJogada;
 
 const muiTheme = getmuiTheme({});
@@ -54,11 +58,12 @@ const muiTheme = getmuiTheme({});
 
 
 class Game extends Component {
-    constructor() {
-        super();
-        this.state = {
+    constructor(props) {
+        super(props);
 
+        this.state = {
             nickname: '',
+            // nickname:props.session.user.nickname,
             oponente: '',
             meuPlacar: 0,
             placarOponente: 0,
@@ -108,6 +113,7 @@ class Game extends Component {
                     this.restaurarPadrao();
                 }
                 else {
+                    console.log(msg, "MESAGEMM");
                     this.setState({
                         buttonVersus: buttonVersus4,
                         buttonSair: buttonSair1,
@@ -593,6 +599,7 @@ class Game extends Component {
 
 
     render() {
+
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div style={{backgroundImage: 'url('+this.state.cenario+')',backgroundPosition: 'center',backgroundRepeat: 'no-repeat',backgroundSize: 'cover',position: 'fixed',top: '0',left: '0',width: '100%',height: '100%'}}>
@@ -693,5 +700,12 @@ class Game extends Component {
     };
 };
 
-export default Game;
+const mapStateToProps = state => ({
+    session: state.auth,
+});
+  
+const mapDispatchToProps = dispatch => 
+    bindActionCreators(userActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 

@@ -18,7 +18,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { divLogin, imageSmart, underlineFocusStyle, floatingLabelFocusStyle,
 floatingLabelStyle, inputStyle, textField, styleBtnSubmit } from './LoginStyle.js';
 
-
 import { Redirect } from 'react-router-dom';
 
 
@@ -62,8 +61,6 @@ class Login extends Component {
         if(email && password){
             this.props.login(email, password);
         }    
-
-        console.log(this.props, "PROPS");
     }
     
     handleChange = (event) => {
